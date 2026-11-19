@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Appdev — Write it. Know it.</title>
+<style>
+/* Offline design: system fonts, native controls, and no external assets. */
+:root{--ink:#152a32;--muted:#50636b;--paper:#f7f8f4;--white:#fff;--line:#d9e1dd;--green:#12664f;--green-light:#e5f2e9;--red:#9d2634;--red-light:#fff0f0;--gold:#e2b04d;--radius:16px}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer;border:1px solid var(--line);border-radius:9px;background:white;color:var(--ink);padding:9px 16px;font-weight:650;line-height:1.45}button:hover{background:#edf2ed}button:disabled{opacity:.5;cursor:default}button.primary{background:var(--green);border-color:var(--green);color:white}button.primary:hover{background:#0a4c39}button.danger{color:var(--red)}a{color:var(--green);text-underline-offset:3px}:focus-visible{outline:3px solid #b06b00;outline-offset:4px}[hidden]{display:none!important}
+.wrap{max-width:1160px;margin:auto;padding:0 28px}.top{background:var(--white);border-bottom:1px solid var(--line)}.brand-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:21px;padding-bottom:21px}.brand{display:flex;align-items:center;gap:12px;font-size:21px;font-weight:800;letter-spacing:-.8px}.logo{display:grid;place-items:center;width:38px;height:38px;background:var(--ink);color:white;border-radius:10px;font:700 18px ui-monospace,monospace;letter-spacing:-2px}.eyebrow{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;font-weight:750;color:var(--green)}.session{font-size:12px;color:var(--muted);border:1px solid var(--line);padding:5px 11px;border-radius:30px}.session:before{content:'●';color:var(--green);margin-right:7px}nav{display:flex;gap:5px;overflow-x:auto;padding-bottom:0}nav button{border:0;background:none;white-space:nowrap;border-radius:7px 7px 0 0;padding:13px 17px;border-bottom:3px solid transparent;font-size:14px;color:var(--muted)}nav button[aria-current="page"]{color:var(--green);border-color:var(--green);background:#f0f6ef}main{padding-top:36px;padding-bottom:70px}.hero{display:flex;gap:30px;align-items:center;justify-content:space-between;margin-bottom:26px}.hero h1{font-size:clamp(29px,4vw,42px);line-height:1.15;letter-spacing:-1.4px;margin:10px 0 14px;font-weight:750}.hero p{max-width:680px;margin:0;color:var(--muted)}.hero-mark{color:#99b1a2;font:60px ui-monospace,monospace;padding:0 18px;transform:rotate(-8deg)}.toolbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#edf1e9;padding:14px 18px;border:1px solid var(--line);border-radius:12px;margin-bottom:24px;font-size:13px}.toolbar label{display:flex;align-items:center;gap:8px}.toolbar select{background:white;border:1px solid #b9c9be;border-radius:7px;color:var(--ink);padding:6px 30px 6px 9px}.toolbar .spacer{flex:1}input[type=checkbox]{accent-color:var(--green);width:17px;height:17px}.small{font-size:13px;color:var(--muted)}.pill{display:inline-block;padding:3px 9px;border-radius:5px;background:#e7eef5;color:#274764;font-size:11px;font-weight:750;letter-spacing:.4px}.pill.css{background:#f6e9d5;color:#715117}.pill.react{background:#e8e4f5;color:#594581}.official{background:#fff5da;color:#704d09}.card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:26px;margin-bottom:20px}.card h2{font-size:21px;line-height:1.4;letter-spacing:-.35px;margin:12px 0 18px}.card h3{margin:0 0 8px;font-size:17px}.card p{margin:8px 0}.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.tag-row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.practice-layout{display:grid;grid-template-columns:minmax(0,1fr) 265px;gap:24px}.aside .card{padding:21px}.aside h3{font-size:14px}.aside p,.aside li{font-size:13px;color:var(--muted)}.aside ul{padding-left:18px;margin:10px 0}.number{font:13px ui-monospace,monospace;color:var(--muted)}.answer-label{font-size:12px;font-weight:750;letter-spacing:1px;display:block;text-transform:uppercase;margin:24px 0 8px}.code-input{display:block;width:100%;border:1px solid #9eb4a7;border-radius:9px;background:#fafcf9;color:var(--ink);font:15px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;padding:15px 14px;min-height:56px}.code-input:disabled{opacity:.75}.actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:17px}.actions .push{margin-left:auto}.divider{height:1px;background:var(--line);margin:23px 0}.progress-line{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted);margin:0 0 7px}progress{display:block;width:100%;height:7px;accent-color:var(--green);border:0;border-radius:10px;overflow:hidden;margin-bottom:22px}progress::-webkit-progress-bar{background:#e3e9e2}progress::-webkit-progress-value{background:var(--green)}code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}pre{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;font-size:13px;background:#f2f5ef;border:1px solid var(--line);border-radius:9px;padding:14px;margin:10px 0}code{font-size:.94em}.feedback{margin-top:20px;padding:18px;background:var(--green-light);border:1px solid #b4d4c0;border-radius:10px}.feedback.wrong{background:var(--red-light);border-color:#e6bec2}.feedback h3{font-size:16px;margin-top:0}.feedback p{font-size:14px}.compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}.compare label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;font-weight:750}.compare pre{background:#fff;margin:5px 0;white-space:pre-wrap}.diff{background:#ffd3a8;color:#542a00;text-decoration:underline;text-decoration-thickness:2px;min-width:.6em;display:inline-block;border-radius:2px}.source{font-size:11px;color:var(--muted);overflow-wrap:anywhere;margin-top:12px}.hint{padding:9px 13px;border-left:3px solid var(--gold);background:#fff8e8;margin-top:16px;font-size:14px}.empty{text-align:center;padding:40px 20px;color:var(--muted)}.notes-head{display:flex;align-items:center;gap:16px;margin-bottom:24px}.search{flex:1;max-width:500px;padding:11px 13px;border:1px solid #aabdac;background:white;border-radius:9px;min-width:150px}.note-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.note-grid .card{margin:0;padding:22px}.note-grid .card:target{outline:3px solid var(--gold)}.section-heading{display:flex;align-items:center;gap:12px;margin:30px 0 18px;font-size:21px}.section-heading:after{content:'';height:1px;background:var(--line);flex:1}.official-list details{border-bottom:1px solid var(--line);padding:13px 0}.official-list details:last-child{border:0}.official-list summary{cursor:pointer;font-size:14px;font-weight:600}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:24px}.stat{border:1px solid var(--line);background:white;border-radius:12px;padding:19px 21px}.stat b{display:block;font-size:30px;letter-spacing:-1px;line-height:1.3}.stat span{font-size:12px;color:var(--muted)}.table-scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}.exam-nav{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:15px}.exam-nav button{padding:7px 3px;min-width:0;font-size:12px;border-radius:6px}.exam-nav button.answered{background:#e3efe4;border-color:#94baa1}.exam-nav button.current{outline:2px solid var(--green);outline-offset:1px}.exam-status{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:15px}.timer{font:700 18px ui-monospace,monospace}.notice{border-left:3px solid var(--gold);background:#fff7e3;padding:13px 16px;font-size:13px;color:#674910}.note-links{display:flex;gap:8px;flex-wrap:wrap}.note-links a{background:#edf4ed;border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}footer{border-top:1px solid var(--line);padding:20px 0;font-size:12px;color:var(--muted)}footer .wrap{display:flex;justify-content:space-between;gap:15px}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.result-grid .card{min-width:0}.inline-number{width:95px;padding:8px;border:1px solid #aabdac;border-radius:7px}details>summary{cursor:pointer}dialog{border:1px solid var(--line);border-radius:16px;max-width:460px;width:calc(100% - 36px);padding:26px;color:var(--ink)}dialog::backdrop{background:#152a3280}.count-list{padding-left:20px}.count-list li{margin:6px 0}
+@media(max-width:850px){.practice-layout{grid-template-columns:1fr}.aside{display:grid;grid-template-columns:1fr 1fr;gap:16px}.hero-mark{display:none}.note-grid{grid-template-columns:1fr}.result-grid{grid-template-columns:1fr}.exam-nav{grid-template-columns:repeat(10,1fr)}}
+@media(max-width:520px){.wrap{padding-left:17px;padding-right:17px}.brand-row{padding-top:16px;padding-bottom:16px}.session{font-size:10px}.brand{font-size:19px}nav button{font-size:12px;padding:12px 10px}main{padding-top:26px}.hero h1{font-size:32px}.hero p{font-size:14px}.toolbar{gap:12px;padding:13px}.toolbar .spacer{display:none}.card{padding:20px}.card h2{font-size:19px}.aside{display:block}.stats{gap:8px}.stat{padding:14px 12px}.stat b{font-size:24px}.compare{grid-template-columns:1fr}.actions button{font-size:13px}.actions .push{margin-left:0}.exam-nav{grid-template-columns:repeat(5,1fr)}footer .wrap{display:block}.notes-head{flex-wrap:wrap}.search{max-width:none;width:100%}.code-input{font-size:14px}}
+@media(prefers-reduced-motion:no-preference){button{transition:background .15s}}
+@media print{nav,.toolbar,button,.hero-mark,footer{display:none!important}body{background:white}.card{break-inside:avoid}main{padding-top:0}}
+</style>
+</head>
+<body>
+<a href="#main" class="sr-only">Skip to content</a>
+<header class="top"><div class="wrap brand-row"><div class="brand"><span class="logo" aria-hidden="true">&lt;/&gt;</span>appdev<span class="small">/ reviewer</span></div><span class="session">Offline · session only</span></div>
+<nav class="wrap" aria-label="Main navigation">
+<button data-view="notes">Study Notes</button><button data-view="practice">Write-the-Code</button><button data-view="identification">Identification</button><button data-view="exam">Mock Exam</button><button data-view="results">Results</button>
+</nav></header>
+<main id="main" class="wrap" tabindex="-1" style="padding-top:32px;padding-bottom:60px">
+<div class="hero"><div><div class="eyebrow">Supplementary exam / syntax lab</div><h1 id="page-title">Write it. Know it.</h1><p id="page-intro">One prompt. One line of code. Build confidence with syntax from your slides.</p></div><div class="hero-mark" aria-hidden="true">{ ; }</div></div>
+<div id="filters" class="toolbar"><label for="language-filter">Language <select id="language-filter"><option value="All">All languages</option><option>JavaScript</option><option>CSS</option><option value="React">ReactJS</option></select></label><label><input id="official-filter" type="checkbox"> Official practice only</label><span class="spacer"></span><label id="shuffle-label"><input id="shuffle" type="checkbox"> Shuffle</label></div>
+<section id="content" aria-labelledby="page-title"></section>
+</main>
+<footer><div class="wrap"><span>Source-based study. Syntax-first practice.</span><span>No account · No internet · Refresh clears progress</span></div></footer>
+<dialog id="confirm-dialog" aria-labelledby="confirm-title"><h2 id="confirm-title">Submit mock exam?</h2><p id="confirm-text"></p><div class="actions"><button id="cancel-submit">Keep working</button><button id="confirm-submit" class="primary">Submit exam</button></div></dialog>
+<script>
+'use strict';
+// ================================================================
+// EDITABLE CODE QUESTION BANK — edit code-questions.json; keep the same fields.
+// alternateAnswers intentionally excludes changes of quote style.
+// ================================================================
+let CODE_QUESTIONS = [];
+// EDITABLE IDENTIFICATION QUESTION BANK — case-insensitive answers.
+const IDENTIFICATION_QUESTIONS = [
+  {
+    "id": "I1",
+    "language": "JavaScript",
+    "topic": "Variables",
+    "prompt": "Which keyword declares a binding that cannot be reassigned?",
+    "answer": "const",
+    "alternateAnswers": [],
+    "explanation": "let allows reassignment; const prevents reassignment of the binding; identifiers and keywords are case-sensitive.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 12–17, 44–45",
+    "examFlag": false
+  },
+  {
+    "id": "I2",
+    "language": "JavaScript",
+    "topic": "Variables",
+    "prompt": "Which operator reports a value’s type?",
+    "answer": "typeof",
+    "alternateAnswers": [],
+    "explanation": "let allows reassignment; const prevents reassignment of the binding; identifiers and keywords are case-sensitive.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 12–17, 44–45",
+    "examFlag": false
+  },
+  {
+    "id": "I3",
+    "language": "JavaScript",
+    "topic": "Objects",
+    "prompt": "What keyword refers to the receiving object inside its regular method?",
+    "answer": "this",
+    "alternateAnswers": [],
+    "explanation": "An object groups properties in braces; dot notation reads or assigns a property, and methods can use this.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 22–23",
+    "examFlag": false
+  },
+  {
+    "id": "I4",
+    "language": "JavaScript",
+    "topic": "Arrays and map",
+    "prompt": "What does .map() return?",
+    "answer": "a new array",
+    "alternateAnswers": [
+      "new array",
+      "array"
+    ],
+    "explanation": "Arrays hold ordered values; push adds at the end, shift removes the first value, and map creates a new array.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 24–25, 34–35",
+    "examFlag": false
+  },
+  {
+    "id": "I5",
+    "language": "JavaScript",
+    "topic": "Arrays and map",
+    "prompt": "Which array method removes the first item?",
+    "answer": "shift",
+    "alternateAnswers": [
+      "shift()",
+      ".shift()"
+    ],
+    "explanation": "Arrays hold ordered values; push adds at the end, shift removes the first value, and map creates a new array.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 24–25, 34–35",
+    "examFlag": false
+  },
+  {
+    "id": "I6",
+    "language": "JavaScript",
+    "topic": "Arrow functions",
+    "prompt": "What is returning an arrow expression without the return keyword called?",
+    "answer": "implicit return",
+    "alternateAnswers": [],
+    "explanation": "Arrow functions use =>; a single expression can return implicitly, while a block uses return explicitly.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 18–19, 48–49",
+    "examFlag": false
+  },
+  {
+    "id": "I7",
+    "language": "JavaScript",
+    "topic": "Destructuring",
+    "prompt": "What syntax feature pulls named properties directly into variables?",
+    "answer": "destructuring",
+    "alternateAnswers": [
+      "object destructuring"
+    ],
+    "explanation": "Object destructuring uses braces; array destructuring uses brackets and follows element order.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 34–35, 52–53",
+    "examFlag": false
+  },
+  {
+    "id": "I8",
+    "language": "JavaScript",
+    "topic": "Spread and rest",
+    "prompt": "What operator copies array elements into a new array?",
+    "answer": "spread",
+    "alternateAnswers": [
+      "spread operator",
+      "..."
+    ],
+    "explanation": "Spread copies array items or object properties into a new container; rest collects function arguments into an array.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 40–41, 56–57",
+    "examFlag": false
+  },
+  {
+    "id": "I9",
+    "language": "JavaScript",
+    "topic": "Comparisons and logical operators",
+    "prompt": "Which equality operator compares without type conversion?",
+    "answer": "===",
+    "alternateAnswers": [
+      "strict equality",
+      "strict equality operator"
+    ],
+    "explanation": "=== compares without type conversion; && and || short-circuit; ! negates a value’s truthiness.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 16–17, 38–39, 70–73",
+    "examFlag": false
+  },
+  {
+    "id": "I10",
+    "language": "JavaScript",
+    "topic": "Ternary and safe access",
+    "prompt": "Which operator provides a fallback only for null or undefined?",
+    "answer": "??",
+    "alternateAnswers": [
+      "nullish coalescing",
+      "nullish coalescing operator"
+    ],
+    "explanation": "A ternary chooses a value with ? and :; optional chaining stops at nullish values; ?? provides a nullish fallback.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 76–79",
+    "examFlag": false
+  },
+  {
+    "id": "I11",
+    "language": "JavaScript",
+    "topic": "Array selection and sorting",
+    "prompt": "Which array method returns the first matching item?",
+    "answer": "find",
+    "alternateAnswers": [
+      "find()",
+      ".find()"
+    ],
+    "explanation": "filter returns matching items; find returns the first match; some and every return booleans; sort reorders an array.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 88–90",
+    "examFlag": false
+  },
+  {
+    "id": "I12",
+    "language": "JavaScript",
+    "topic": "Errors and JSON",
+    "prompt": "Which JSON method turns an object into JSON text?",
+    "answer": "JSON.stringify",
+    "alternateAnswers": [
+      "JSON.stringify()",
+      "stringify"
+    ],
+    "explanation": "throw creates an error path; try/catch handles failures; JSON.stringify serializes and JSON.parse reads JSON text.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 92–95",
+    "examFlag": false
+  },
+  {
+    "id": "I13",
+    "language": "JavaScript",
+    "topic": "Promises and async functions",
+    "prompt": "Which keyword waits for a promise inside an async function?",
+    "answer": "await",
+    "alternateAnswers": [],
+    "explanation": "Promises represent future outcomes; async functions can await promises, and fetch responses expose a json method.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 100–105",
+    "examFlag": false
+  },
+  {
+    "id": "I14",
+    "language": "JavaScript",
+    "topic": "Scope and closures",
+    "prompt": "What is a function that retains access to its enclosing variables called?",
+    "answer": "closure",
+    "alternateAnswers": [
+      "a closure"
+    ],
+    "explanation": "let and const have block scope; a closure retains access to variables from its enclosing scope.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 108–111",
+    "examFlag": false
+  },
+  {
+    "id": "I15",
+    "language": "CSS",
+    "topic": "Selectors and declarations",
+    "prompt": "What symbol starts a class selector?",
+    "answer": ".",
+    "alternateAnswers": [
+      "dot",
+      "period"
+    ],
+    "explanation": "A ruleset has a selector and braced declarations; class selectors start with a dot, and declarations use property: value;.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 7–8, 12, 36",
+    "examFlag": false
+  },
+  {
+    "id": "I16",
+    "language": "CSS",
+    "topic": "Custom properties",
+    "prompt": "Which selector holds shared custom properties in the slides?",
+    "answer": ":root",
+    "alternateAnswers": [
+      "root"
+    ],
+    "explanation": "Declare shared custom properties in :root with -- names and read their values with var().",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 5–6, 17, 34",
+    "examFlag": false
+  },
+  {
+    "id": "I17",
+    "language": "CSS",
+    "topic": "Custom properties",
+    "prompt": "Which CSS function reads a custom property?",
+    "answer": "var()",
+    "alternateAnswers": [
+      "var"
+    ],
+    "explanation": "Declare shared custom properties in :root with -- names and read their values with var().",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 5–6, 17, 34",
+    "examFlag": false
+  },
+  {
+    "id": "I18",
+    "language": "CSS",
+    "topic": "Reset and box model",
+    "prompt": "Which box-sizing value includes padding and border in the declared size?",
+    "answer": "border-box",
+    "alternateAnswers": [],
+    "explanation": "border-box includes padding and border in the declared size; padding is inside the border and margin is outside.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 7–8, 21–22",
+    "examFlag": false
+  },
+  {
+    "id": "I19",
+    "language": "CSS",
+    "topic": "Reset and box model",
+    "prompt": "Which property adds space inside an element’s border?",
+    "answer": "padding",
+    "alternateAnswers": [],
+    "explanation": "border-box includes padding and border in the declared size; padding is inside the border and margin is outside.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 7–8, 21–22",
+    "examFlag": false
+  },
+  {
+    "id": "I20",
+    "language": "CSS",
+    "topic": "Flexbox",
+    "prompt": "Which property sets the main-axis direction of a flex container?",
+    "answer": "flex-direction",
+    "alternateAnswers": [],
+    "explanation": "display: flex creates a flex container; flex-direction selects its axis, align-items and justify-content align children, and gap separates them.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 16, 23–25",
+    "examFlag": false
+  },
+  {
+    "id": "I21",
+    "language": "CSS",
+    "topic": "Flexbox",
+    "prompt": "Which property adds space between flex items?",
+    "answer": "gap",
+    "alternateAnswers": [],
+    "explanation": "display: flex creates a flex container; flex-direction selects its axis, align-items and justify-content align children, and gap separates them.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 16, 23–25",
+    "examFlag": false
+  },
+  {
+    "id": "I22",
+    "language": "CSS",
+    "topic": "Grid centering",
+    "prompt": "Which property centers grid items in the demonstrated body layout?",
+    "answer": "place-items",
+    "alternateAnswers": [],
+    "explanation": "display: grid creates a grid container; place-items: center centers its items on both axes in the demonstrated layout.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 7–8, 26",
+    "examFlag": false
+  },
+  {
+    "id": "I23",
+    "language": "CSS",
+    "topic": "Sizing and viewport units",
+    "prompt": "Which unit is one percent of viewport width?",
+    "answer": "vw",
+    "alternateAnswers": [],
+    "explanation": "vw and vh refer to viewport width and height; min-height and max-height constrain an element’s size.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 16, 27",
+    "examFlag": false
+  },
+  {
+    "id": "I24",
+    "language": "CSS",
+    "topic": "Borders and overflow",
+    "prompt": "Which overflow value clips content beyond the box?",
+    "answer": "hidden",
+    "alternateAnswers": [],
+    "explanation": "border combines width, style and color; border-radius rounds corners, and overflow: hidden clips overflowing content.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 28–29, 31",
+    "examFlag": false
+  },
+  {
+    "id": "I25",
+    "language": "CSS",
+    "topic": "Pseudo-classes and pseudo-elements",
+    "prompt": "Which pseudo-class selects the field currently being used?",
+    "answer": ":focus",
+    "alternateAnswers": [
+      "focus"
+    ],
+    "explanation": ":focus selects the active field; ::placeholder selects placeholder text; descendant selectors target elements within another selector.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 18, 32, 36",
+    "examFlag": false
+  },
+  {
+    "id": "I26",
+    "language": "CSS",
+    "topic": "Pseudo-classes and pseudo-elements",
+    "prompt": "Which pseudo-element styles an input’s hint text?",
+    "answer": "::placeholder",
+    "alternateAnswers": [
+      "placeholder"
+    ],
+    "explanation": ":focus selects the active field; ::placeholder selects placeholder text; descendant selectors target elements within another selector.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 18, 32, 36",
+    "examFlag": false
+  },
+  {
+    "id": "I27",
+    "language": "CSS",
+    "topic": "Media queries",
+    "prompt": "Which CSS at-rule applies rules based on screen-width conditions?",
+    "answer": "@media",
+    "alternateAnswers": [
+      "media query",
+      "media"
+    ],
+    "explanation": "@media applies conditional rules; the demonstrated max-width query changes layouts at widths up to 900px.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 19, 33",
+    "examFlag": false
+  },
+  {
+    "id": "I28",
+    "language": "React",
+    "topic": "Components and fragments",
+    "prompt": "What JSX wrapper groups siblings without adding a DOM element?",
+    "answer": "fragment",
+    "alternateAnswers": [
+      "a fragment",
+      "React fragment",
+      "<>...<\/>"
+    ],
+    "explanation": "A function component starts with a capital letter and returns JSX; fragments group siblings without a wrapper element.",
+    "sourceSlide": "09. React - Basics.pptx · slides 5–26",
+    "examFlag": false
+  },
+  {
+    "id": "I29",
+    "language": "React",
+    "topic": "Imports and exports",
+    "prompt": "Which export type is imported without surrounding braces?",
+    "answer": "default",
+    "alternateAnswers": [
+      "default export"
+    ],
+    "explanation": "Default exports import without braces; named exports import with braces; relative paths reflect file locations.",
+    "sourceSlide": "09. React - Basics.pptx · slides 5–8, 28–34, 38–39",
+    "examFlag": false
+  },
+  {
+    "id": "I30",
+    "language": "React",
+    "topic": "Styling in JSX",
+    "prompt": "Which JSX attribute applies a CSS class?",
+    "answer": "className",
+    "alternateAnswers": [],
+    "explanation": "Plain stylesheet imports apply globally; JSX uses className, and a component-specific filename alone does not scope plain CSS.",
+    "sourceSlide": "09. React - Basics.pptx · slides 56–65",
+    "examFlag": false
+  },
+  {
+    "id": "I31",
+    "language": "React",
+    "topic": "CSS Modules",
+    "prompt": "Which filename suffix enables CSS Module scoping?",
+    "answer": ".module.css",
+    "alternateAnswers": [
+      "module.css"
+    ],
+    "explanation": "Import a .module.css file as an object; use its class properties in className expressions; hyphenated names use bracket access.",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 12–15, 35, 38–39",
+    "examFlag": false
+  },
+  {
+    "id": "I32",
+    "language": "React",
+    "topic": "Props",
+    "prompt": "What are values passed to a component called?",
+    "answer": "props",
+    "alternateAnswers": [
+      "properties"
+    ],
+    "explanation": "Components receive props; destructuring names them in parameters, JSX attributes pass them, and spread forwards an object.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 20, 28, 54, 58",
+    "examFlag": false
+  },
+  {
+    "id": "I33",
+    "language": "React",
+    "topic": "State and immutable updates",
+    "prompt": "Which hook returns a state value and a setter?",
+    "answer": "useState",
+    "alternateAnswers": [
+      "useState()"
+    ],
+    "explanation": "useState returns a value and setter; update arrays and objects with a new copy and use a setter callback for a previous-value increment.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 42, 46, 58, 112",
+    "examFlag": false
+  },
+  {
+    "id": "I34",
+    "language": "React",
+    "topic": "Event handlers",
+    "prompt": "Which React event prop handles a click?",
+    "answer": "onClick",
+    "alternateAnswers": [],
+    "explanation": "Pass a callback to an event prop; onClick and onChange use camelCase and braces around JavaScript.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 50",
+    "examFlag": false
+  },
+  {
+    "id": "I35",
+    "language": "React",
+    "topic": "Lists and conditional rendering",
+    "prompt": "Which prop identifies an item within a rendered list?",
+    "answer": "key",
+    "alternateAnswers": [],
+    "explanation": "map returns JSX items with keys; && conditionally includes content, and ternaries choose between two outputs.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 28, 36, 74, 80",
+    "examFlag": false
+  },
+  {
+    "id": "I36",
+    "language": "React",
+    "topic": "Mounting and effects",
+    "prompt": "Which hook appears in the slides’ data-loading example?",
+    "answer": "useEffect",
+    "alternateAnswers": [
+      "useEffect()"
+    ],
+    "explanation": "createRoot creates a React root; root.render renders a component; an effect can call an async helper after mounting.",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 10, 106",
+    "examFlag": false
+  }
+];
+// EDITABLE STUDY NOTES — topics connect questions to review links.
+const STUDY_NOTES = [
+  {
+    "id": "note-1",
+    "language": "JavaScript",
+    "topic": "Variables",
+    "explanation": "let allows reassignment; const prevents reassignment of the binding; identifiers and keywords are case-sensitive.",
+    "example": "let myName = \"Alice\";",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 12–17, 44–45"
+  },
+  {
+    "id": "note-2",
+    "language": "JavaScript",
+    "topic": "Objects",
+    "explanation": "An object groups properties in braces; dot notation reads or assigns a property, and methods can use this.",
+    "example": "const aboutMe = { name: \"Alice\", age: 20 };",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 22–23"
+  },
+  {
+    "id": "note-3",
+    "language": "JavaScript",
+    "topic": "Control flow",
+    "explanation": "A for loop has initialization, condition and increment; while repeats while its condition is true; if selects a branch.",
+    "example": "for (let i = 1; i <= 5; i++) { console.log(i); }",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 26–27"
+  },
+  {
+    "id": "note-4",
+    "language": "JavaScript",
+    "topic": "Arrow functions",
+    "explanation": "Arrow functions use =>; a single expression can return implicitly, while a block uses return explicitly.",
+    "example": "const greet = name => \"Hello, \" + name;",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 18–19, 48–49"
+  },
+  {
+    "id": "note-5",
+    "language": "JavaScript",
+    "topic": "Arrays and map",
+    "explanation": "Arrays hold ordered values; push adds at the end, shift removes the first value, and map creates a new array.",
+    "example": "const liked = favoriteFoods.map(food => \"I like \" + food);",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 24–25, 34–35"
+  },
+  {
+    "id": "note-6",
+    "language": "JavaScript",
+    "topic": "DOM and callbacks",
+    "explanation": "DOM methods find elements; event listeners and setTimeout receive callbacks; textContent changes an element’s text.",
+    "example": "const button = document.getElementById(\"changeColorBtn\");",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 30–32, 98–99"
+  },
+  {
+    "id": "note-7",
+    "language": "JavaScript",
+    "topic": "Destructuring",
+    "explanation": "Object destructuring uses braces; array destructuring uses brackets and follows element order.",
+    "example": "const { name, age } = person;",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 34–35, 52–53"
+  },
+  {
+    "id": "note-8",
+    "language": "JavaScript",
+    "topic": "Spread and rest",
+    "explanation": "Spread copies array items or object properties into a new container; rest collects function arguments into an array.",
+    "example": "const newNumbers = [...numbers, 4, 5];",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 40–41, 56–57"
+  },
+  {
+    "id": "note-9",
+    "language": "JavaScript",
+    "topic": "Comparisons and logical operators",
+    "explanation": "=== compares without type conversion; && and || short-circuit; ! negates a value’s truthiness.",
+    "example": "console.log(5 === \"5\");",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 16–17, 38–39, 70–73"
+  },
+  {
+    "id": "note-10",
+    "language": "JavaScript",
+    "topic": "Ternary and safe access",
+    "explanation": "A ternary chooses a value with ? and :; optional chaining stops at nullish values; ?? provides a nullish fallback.",
+    "example": "const result = score >= 70 ? \"Pass\" : \"Fail\";",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 76–79"
+  },
+  {
+    "id": "note-11",
+    "language": "JavaScript",
+    "topic": "Strings and numbers",
+    "explanation": "trim removes outer whitespace; split returns an array; includes checks a substring; parseInt parses an integer; toFixed formats decimals.",
+    "example": "const clean = raw.trim();",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 82–85"
+  },
+  {
+    "id": "note-12",
+    "language": "JavaScript",
+    "topic": "Array selection and sorting",
+    "explanation": "filter returns matching items; find returns the first match; some and every return booleans; sort reorders an array.",
+    "example": "const passing = students.filter(s => s.grade >= 60);",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 88–90"
+  },
+  {
+    "id": "note-13",
+    "language": "JavaScript",
+    "topic": "Classes and modules",
+    "explanation": "Classes create objects; extends adds inheritance; default exports import without braces and named exports import with braces.",
+    "example": "const student = new Student(\"Alice\");",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 60–67"
+  },
+  {
+    "id": "note-14",
+    "language": "JavaScript",
+    "topic": "Errors and JSON",
+    "explanation": "throw creates an error path; try/catch handles failures; JSON.stringify serializes and JSON.parse reads JSON text.",
+    "example": "throw new Error(\"Cannot divide by zero\");",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 92–95"
+  },
+  {
+    "id": "note-15",
+    "language": "JavaScript",
+    "topic": "Promises and async functions",
+    "explanation": "Promises represent future outcomes; async functions can await promises, and fetch responses expose a json method.",
+    "example": "const user = await fetchUser();",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 100–105"
+  },
+  {
+    "id": "note-16",
+    "language": "JavaScript",
+    "topic": "Scope and closures",
+    "explanation": "let and const have block scope; a closure retains access to variables from its enclosing scope.",
+    "example": "const counterA = createCounter();",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 108–111"
+  },
+  {
+    "id": "note-17",
+    "language": "CSS",
+    "topic": "Selectors and declarations",
+    "explanation": "A ruleset has a selector and braced declarations; class selectors start with a dot, and declarations use property: value;.",
+    "example": ".title { font-size: 32px; }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 7–8, 12, 36"
+  },
+  {
+    "id": "note-18",
+    "language": "CSS",
+    "topic": "Custom properties",
+    "explanation": "Declare shared custom properties in :root with -- names and read their values with var().",
+    "example": ":root { --color-primary: #5b86e5; }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 5–6, 17, 34"
+  },
+  {
+    "id": "note-19",
+    "language": "CSS",
+    "topic": "Reset and box model",
+    "explanation": "border-box includes padding and border in the declared size; padding is inside the border and margin is outside.",
+    "example": "* { box-sizing: border-box; }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 7–8, 21–22"
+  },
+  {
+    "id": "note-20",
+    "language": "CSS",
+    "topic": "Flexbox",
+    "explanation": "display: flex creates a flex container; flex-direction selects its axis, align-items and justify-content align children, and gap separates them.",
+    "example": ".login { display: flex; }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 16, 23–25"
+  },
+  {
+    "id": "note-21",
+    "language": "CSS",
+    "topic": "Grid centering",
+    "explanation": "display: grid creates a grid container; place-items: center centers its items on both axes in the demonstrated layout.",
+    "example": "body { display: grid; place-items: center; }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 7–8, 26"
+  },
+  {
+    "id": "note-22",
+    "language": "CSS",
+    "topic": "Sizing and viewport units",
+    "explanation": "vw and vh refer to viewport width and height; min-height and max-height constrain an element’s size.",
+    "example": ".login { width: 86vw; }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 16, 27"
+  },
+  {
+    "id": "note-23",
+    "language": "CSS",
+    "topic": "Borders and overflow",
+    "explanation": "border combines width, style and color; border-radius rounds corners, and overflow: hidden clips overflowing content.",
+    "example": ".socialBtn { border: 1px solid var(--color-primary); }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 28–29, 31"
+  },
+  {
+    "id": "note-24",
+    "language": "CSS",
+    "topic": "Typography",
+    "explanation": "font-family chooses a typeface, font-size sets text size, and font-weight sets thickness; controls can inherit the font.",
+    "example": "body { font-family: var(--font-main); }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 5, 30"
+  },
+  {
+    "id": "note-25",
+    "language": "CSS",
+    "topic": "Pseudo-classes and pseudo-elements",
+    "explanation": ":focus selects the active field; ::placeholder selects placeholder text; descendant selectors target elements within another selector.",
+    "example": ".form input::placeholder { color: var(--color-placeholder); }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 18, 32, 36"
+  },
+  {
+    "id": "note-26",
+    "language": "CSS",
+    "topic": "Media queries",
+    "explanation": "@media applies conditional rules; the demonstrated max-width query changes layouts at widths up to 900px.",
+    "example": "@media (max-width: 900px) { .left { display: none; } }",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 19, 33"
+  },
+  {
+    "id": "note-27",
+    "language": "React",
+    "topic": "Imports and exports",
+    "explanation": "Default exports import without braces; named exports import with braces; relative paths reflect file locations.",
+    "example": "import Title from './components/Title';",
+    "sourceSlide": "09. React - Basics.pptx · slides 5–8, 28–34, 38–39"
+  },
+  {
+    "id": "note-28",
+    "language": "React",
+    "topic": "Components and fragments",
+    "explanation": "A function component starts with a capital letter and returns JSX; fragments group siblings without a wrapper element.",
+    "example": "function Title() { return <h1>Wish 107.5 Playlist<\/h1>; }",
+    "sourceSlide": "09. React - Basics.pptx · slides 5–26"
+  },
+  {
+    "id": "note-29",
+    "language": "React",
+    "topic": "JSX expressions",
+    "explanation": "JSX braces hold expressions: variables, arithmetic, template literals, ternaries and function calls.",
+    "example": "<p>© {year} Anong WISH mo?<\/p>",
+    "sourceSlide": "09. React - Basics.pptx · slides 41–54"
+  },
+  {
+    "id": "note-30",
+    "language": "React",
+    "topic": "Styling in JSX",
+    "explanation": "Plain stylesheet imports apply globally; JSX uses className, and a component-specific filename alone does not scope plain CSS.",
+    "example": "<h1 className=\"title\">Wish 107.5 Playlist<\/h1>",
+    "sourceSlide": "09. React - Basics.pptx · slides 56–65"
+  },
+  {
+    "id": "note-31",
+    "language": "React",
+    "topic": "CSS Modules",
+    "explanation": "Import a .module.css file as an object; use its class properties in className expressions; hyphenated names use bracket access.",
+    "example": "import styles from \"./Login.module.css\";",
+    "sourceSlide": "12. React Styling Fundamentals - Global CSS and CSS Modules.pptx · slides 12–15, 35, 38–39"
+  },
+  {
+    "id": "note-32",
+    "language": "React",
+    "topic": "Props",
+    "explanation": "Components receive props; destructuring names them in parameters, JSX attributes pass them, and spread forwards an object.",
+    "example": "<Song title=\"Secret Love Song\" artist=\"Morissette Amon\" />",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 20, 28, 54, 58"
+  },
+  {
+    "id": "note-33",
+    "language": "React",
+    "topic": "State and immutable updates",
+    "explanation": "useState returns a value and setter; update arrays and objects with a new copy and use a setter callback for a previous-value increment.",
+    "example": "const [count, setCount] = useState(0);",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 42, 46, 58, 112"
+  },
+  {
+    "id": "note-34",
+    "language": "React",
+    "topic": "Event handlers",
+    "explanation": "Pass a callback to an event prop; onClick and onChange use camelCase and braces around JavaScript.",
+    "example": "<button onClick={() => setCount(count + 1)}>+1<\/button>",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 50"
+  },
+  {
+    "id": "note-35",
+    "language": "React",
+    "topic": "Lists and conditional rendering",
+    "explanation": "map returns JSX items with keys; && conditionally includes content, and ternaries choose between two outputs.",
+    "example": "{songs.map(song => <SongCard key={song.id} title={song.title} />)}",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 28, 36, 74, 80"
+  },
+  {
+    "id": "note-36",
+    "language": "React",
+    "topic": "Mounting and effects",
+    "explanation": "createRoot creates a React root; root.render renders a component; an effect can call an async helper after mounting.",
+    "example": "root.render(<App />);",
+    "sourceSlide": "10. JavaScript Refresher. JavaScript Refresher.pptx · slides 10, 106"
+  }
+];
+
+function validateCodeQuestions(value) {
+  if (!Array.isArray(value) || value.length < 50) throw new Error('Choose a question bank with at least 50 questions.');
+  const ids = new Set(), quotas = {JavaScript:17, CSS:17, React:16};
+  const counts = {JavaScript:0, CSS:0, React:0}, official = {JavaScript:0, CSS:0, React:0};
+  for (const q of value) {
+    if (!q || typeof q !== 'object' || Array.isArray(q) || !Number.isInteger(q.id) || q.id < 1 || ids.has(q.id)) throw new Error('Each question needs a unique positive integer ID.');
+    ids.add(q.id);
+    if (!Object.hasOwn(quotas,q.language)) throw new Error('Question languages must be JavaScript, CSS, or React.');
+    if (['topic','prompt','answer','explanation','sourceSlide'].some(key => typeof q[key] !== 'string' || !q[key].trim()) || !Array.isArray(q.alternateAnswers) || q.alternateAnswers.some(answer => typeof answer !== 'string') || typeof q.examFlag !== 'boolean') throw new Error('A question has missing or invalid fields.');
+    if (!STUDY_NOTES.some(note => note.language === q.language && note.topic === q.topic)) throw new Error('Each question topic must match a study note in the same language.');
+    counts[q.language]++; if (q.examFlag) official[q.language]++;
+  }
+  if (Object.keys(quotas).some(language => counts[language] < quotas[language] || official[language] > quotas[language]) || Object.values(official).reduce((sum,count) => sum + count,0) !== 10) throw new Error('The bank needs 17 JavaScript, 17 CSS, 16 React questions and exactly 10 official questions within those exam quotas.');
+  return value;
+}
+
+// SHARED GRADING: normalize only allowed differences; never execute answers.
+function straightenQuotes(text) {
+  return String(text).replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
+}
+function normalizeCode(value, language = 'JavaScript') {
+  const text = straightenQuotes(value).trim();
+  let i = 0;
+  const token = (value, start, kind = 'punctuation', extra = {}) => ({value, start, end:i, kind, ...extra});
+  function quoted() {
+    const start = i, quote = text[i++];
+    while (i < text.length) {
+      const c = text[i++];
+      if (c === '\\') i++;
+      else if (c === quote) return token(text.slice(start,i),start,'literal');
+    }
+    return token(text.slice(start,i)+'⟦unclosed literal⟧',start,'literal');
+  }
+  function atom(css = false) {
+    const start = i;
+    if ('"\'`'.includes(text[i])) return quoted();
+    const rest = text.slice(i);
+    const match = css
+      ? rest.match(/^(?:(?:\d*\.\d+|\d+)(?:[eE][+-]?\d+)?(?:[a-zA-Z]+|%)?|(?:--|-)?[a-zA-Z_][\w-]*)/)
+      : rest.match(/^(?:0[xX][\da-fA-F]+n?|(?:\d*\.\d+|\d+)(?:[eE][+-]?\d+)?n?|[a-zA-Z_$][\w$]*)/);
+    if (match) { i += match[0].length; return token(match[0],start,'word'); }
+    const operator = css ? null : rest.match(/^(?:===|!==|>>>|\*\*=|&&=|\|\|=|\?\?=|=>|==|!=|<=|>=|\+\+|--|&&|\|\||\?\?|\?\.|\*\*|<<|>>|\+=|-=|\*=|\/=|%=|&=|\|=|\^=|\.\.\.)/);
+    i += operator ? operator[0].length : 1;
+    return token(text.slice(start,i),start);
+  }
+  function optionalEnd(tokens) {
+    const last = tokens.at(-1), previous = tokens.at(-2);
+    if (last?.value === ';' && previous && !previous.controlClose && (previous.kind !== 'punctuation' || [')',']','}','++','--'].includes(previous.value))) tokens.pop();
+    return tokens;
+  }
+  function js(end = '', block = false) {
+    const tokens = [];
+    while (i < text.length && (!end || text[i] !== end)) {
+      const gap = text.slice(i).match(/^\s+/)?.[0] || ''; i += gap.length;
+      if (i >= text.length || (end && text[i] === end)) break;
+      const previous = tokens.at(-1), c = text[i], start = i;
+      if (/[\r\n]/.test(gap) && (['return','throw','break','continue','yield','++','--'].includes(previous?.value) || /^(?:\+\+|--)/.test(text.slice(i)))) tokens.push(token('\n',i,'line break'));
+      if (c === '/' && (text[i+1] === '/' || text[i+1] === '*')) {
+        const line = text[i+1] === '/', finish = line ? text.indexOf('\n',i+2) : text.indexOf('*/',i+2);
+        i = finish < 0 ? text.length : finish + (line ? 0 : 2); tokens.push(token(text.slice(start,i),start,'comment')); continue;
+      }
+      if (c === '<' && language === 'React' && /[A-Za-z>]/.test(text[i+1] || '') && (!previous || ['return','=','(','{','[',',','=>','&&','||','?',':'].includes(previous.value))) { tokens.push(token(jsx(),start,'jsx')); continue; }
+      if ('({['.includes(c)) {
+        i++; tokens.push(token(c,start));
+        const close = {'(':')','{':'}','[':']'}[c];
+        const isBlock = c === '{' && (previous?.value === ')' || ['=>','else','try','finally','do'].includes(previous?.value));
+        tokens.push(...js(close,isBlock));
+        if (text[i] === close) { const closingStart=i++; tokens.push(token(close,closingStart,'punctuation',{controlClose:c === '(' && ['for','if','while','switch','catch','with'].includes(previous?.value)})); }
+        else tokens.push(token('⟦missing '+close+'⟧',i));
+      } else tokens.push(atom());
+    }
+    return !end || block ? optionalEnd(tokens) : tokens;
+  }
+  function tag() {
+    const start = i++; let result = '<', name = '', closing = false;
+    if (text[i] === '/') { closing = true; result += text[i++]; }
+    const match = text.slice(i).match(/^[A-Za-z_$][\w$.:\-]*/);
+    if (match) { name = match[0]; i += name.length; result += name; }
+    else if (text[i] !== '>') return {value:result+'⟦invalid tag⟧',name,closing,self:true};
+    while (i < text.length) {
+      const gap = text.slice(i).match(/^\s+/)?.[0] || ''; i += gap.length;
+      if (text.startsWith('/>',i)) { i += 2; return {value:result+'/>',name,closing,self:true}; }
+      if (text[i] === '>') { i++; return {value:result+'>',name,closing,self:false}; }
+      if (!gap) result += '⟦missing attribute space⟧';
+      if (text[i] === '{') {
+        i++; result += ' {'+js('}').map(t=>t.value).join(' ');
+        result += text[i] === '}' ? text[i++] : '⟦missing }⟧'; continue;
+      }
+      const attribute = text.slice(i).match(/^[A-Za-z_$][\w$:\-]*/);
+      if (!attribute) { result += text[i++]; continue; }
+      i += attribute[0].length; result += ' '+attribute[0];
+      const afterName = i; while (/\s/.test(text[i] || '') && i < text.length) i++;
+      if (text[i] !== '=') { i = afterName; continue; }
+      i++; result += '='; while (/\s/.test(text[i] || '') && i < text.length) i++;
+      if (text[i] === '"' || text[i] === "'") result += quoted().value;
+      else if (text[i] === '{') { i++; result += '{'+js('}').map(t=>t.value).join(' '); result += text[i] === '}' ? text[i++] : '⟦missing }⟧'; }
+      else { result += '⟦invalid attribute value⟧'; if (i < text.length) result += text[i++]; }
+    }
+    return {value:result+'⟦unclosed tag⟧',name,closing,self:true,start};
+  }
+  function jsx() {
+    const opening = tag(); let result = opening.value;
+    if (opening.self || opening.closing) return result;
+    while (i < text.length) {
+      if (text.startsWith('</',i)) { const closing = tag(); return result+closing.value+(closing.name === opening.name ? '' : '⟦mismatched tag⟧'); }
+      if (text[i] === '<') result += jsx();
+      else if (text[i] === '{') { i++; result += '{'+js('}').map(t=>t.value).join(' '); result += text[i] === '}' ? text[i++] : '⟦missing }⟧'; }
+      else result += text[i++]; // JSX child text remains exact.
+    }
+    return result+'⟦unclosed JSX⟧';
+  }
+  function css() {
+    const tokens = []; let gap = '';
+    while (i < text.length) {
+      if (/\s/.test(text[i])) { gap = ' '; i++; continue; }
+      const next = atom(true); next.gap = gap; tokens.push(next); gap = '';
+    }
+    const stack = []; let result = '', segmentStart = 0, parens = 0;
+    for (let n=0;n<tokens.length;n++) {
+      const current=tokens[n], previous=tokens[n-1], next=tokens[n+1], c=current.value;
+      const declaration = stack.at(-1) === 'rule';
+      const media = tokens.slice(segmentStart,n).some((t,k,a)=>t.value === '@' && a[k+1]?.value === 'media');
+      const selector = !declaration && parens === 0;
+      let harmless = !previous || ['{','}',';',','].includes(c) || ['{','}',';',','].includes(previous.value);
+      if ((c === ':' || previous?.value === ':') && (declaration || (media && parens))) harmless = true;
+      if (selector && (['>','+','~'].includes(c) || ['>','+','~'].includes(previous?.value))) harmless = true;
+      if (c === ')' || previous?.value === '(' || (c === '(' && media)) harmless = true;
+      if (current.gap && !harmless) result += ' ';
+      if (!(c === ';' && next?.value === '}' && declaration && previous && ![';','{'].includes(previous.value))) result += c;
+      if (c === '(') parens++; if (c === ')') parens--;
+      if (c === '{') { stack.push(tokens.slice(segmentStart,n).some(t=>t.value === '@') ? 'group' : 'rule'); segmentStart=n+1; }
+      if (c === '}' || c === ';') { if (c === '}') stack.pop(); segmentStart=n+1; }
+    }
+    return result;
+  }
+  return language === 'CSS' ? css() : js().map(t=>t.value).join(' ');
+}
+function checkCode(value, question) {
+  const normalized = normalizeCode(value, question.language);
+  return [question.answer, ...question.alternateAnswers].some(answer => normalizeCode(answer, question.language) === normalized);
+}
+function checkIdentification(value, question) {
+  const normalize = text => straightenQuotes(text).trim().replace(/\s+/g, ' ').toLowerCase();
+  return [question.answer, ...question.alternateAnswers].some(answer => normalize(answer) === normalize(value));
+}
+function analyzeMistake(value, answer, language) {
+  const actual = normalizeCode(value, language), expected = normalizeCode(answer, language);
+  let index = 0;
+  while (index < actual.length && index < expected.length && actual[index] === expected[index]) index++;
+  let type = 'Other';
+  if (!actual) type = 'Unanswered';
+  else if (actual.replace(/;/g, '') === expected.replace(/;/g, '') && actual.split(';').length < expected.split(';').length) type = 'Missing semicolon';
+  else if (actual.toLowerCase() === expected.toLowerCase()) type = 'Capitalization';
+  else if (actual.replace(/["']/g, '') === expected.replace(/["']/g, '')) type = 'Wrong quote type';
+  else if (actual.replace(/[\[\](){}]/g, '') === expected.replace(/[\[\](){}]/g, '')) type = 'Missing or extra bracket';
+  else if (actual.replace(/\s/g, '') === expected.replace(/\s/g, '')) type = actual.length < expected.length ? 'Missing space' : 'Extra space';
+  else {
+    const a = actual.match(/[A-Za-z_$][\w$]*/g) || [], b = expected.match(/[A-Za-z_$][\w$]*/g) || [];
+    if (actual.replace(/[A-Za-z_$][\w$]*/g, '#') === expected.replace(/[A-Za-z_$][\w$]*/g, '#') && a.length === b.length) type = a.join('').toLowerCase() === b.join('').toLowerCase() ? 'Capitalization' : 'Misspelling';
+  }
+  return {type, index, actual, expected};
+}
+function shuffled(items) {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [result[i],result[j]] = [result[j],result[i]]; }
+  return result;
+}
+function selectExam() {
+  const result = [];
+  for (const [language, count] of [['JavaScript',17],['CSS',17],['React',16]]) {
+    const official = CODE_QUESTIONS.filter(q => q.language === language && q.examFlag);
+    const pool = shuffled(CODE_QUESTIONS.filter(q => q.language === language && !q.examFlag));
+    if (pool.length + official.length < count) throw new Error('Not enough questions for ' + language);
+    result.push(...official, ...pool.slice(0, count - official.length));
+  }
+  return shuffled(result);
+}
+
+// UI START — everything below keeps state in JavaScript variables only.
+const $ = selector => document.querySelector(selector);
+const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const languageName = language => language === 'React' ? 'ReactJS' : language;
+const badge = q => `<span class="pill ${q.language.toLowerCase()}">${languageName(q.language)}</span>${q.examFlag ? '<span class="pill official">OFFICIAL</span>' : ''}`;
+const source = q => `<div class="source">Source: ${escapeHTML(q.sourceSlide)}</div>`;
+const noteFor = q => STUDY_NOTES.find(note => note.language === q.language && note.topic === q.topic);
+let bankReady = false, bankLoading = false;
+let view = 'practice', language = 'All', officialOnly = false, shuffle = false, search = '', handwriting = false;
+// Attempts are append-only; each practice card can be graded once.
+const attempts = [];
+let retryItems = null;
+const practice = {items:[],index:0,drafts:{},grades:{},revealed:{},hints:{}};
+const identification = {items:[],index:0,drafts:{},grades:{},hints:{}};
+let exam = null;
+let timerHandle = null;
+let pendingSubmit = null;
+let lastExam = null;
+let attemptSequence = 0;
+
+function filtered(items) { return items.filter(q => (language === 'All' || q.language === language) && (!officialOnly || q.examFlag)); }
+function rebuildPractice() {
+  const list = retryItems || filtered(CODE_QUESTIONS);
+  practice.items = shuffle ? shuffled(list) : [...list]; practice.index = 0;
+  // A new filter/order is a fresh drill, without erasing overall session results.
+  practice.drafts = {}; practice.grades = {}; practice.revealed = {}; practice.hints = {};
+  const ids = filtered(IDENTIFICATION_QUESTIONS);
+  identification.items = shuffle ? shuffled(ids) : ids; identification.index = 0;
+  identification.drafts = {}; identification.grades = {}; identification.hints = {};
+}
+function clearFilters() {
+  language='All';officialOnly=false;search='';
+  $('#language-filter').value='All';$('#official-filter').checked=false;
+}
+function addAttempt(q, value, correct, mode, manual = false) {
+  const attempt = {sequence:++attemptSequence,q,value,correct,mode,manual,type:correct ? null : manual ? 'Self-reported miss' : mode === 'identification' ? 'Identification' : analyzeMistake(value,q.answer,q.language).type};
+  attempts.push(attempt); return attempt;
+}
+function latestMisses(mode = 'code') {
+  const latest = new Map();
+  for (const attempt of attempts.filter(a => mode === 'identification' ? a.mode === 'identification' : a.mode !== 'identification')) latest.set(attempt.q.id,attempt);
+  return [...latest.values()].filter(a => !a.correct);
+}
+function navigate(next, focus = true) {
+  if (!bankReady) return;
+  if (exam?.deadline) {
+    const now = Date.now();
+    if (next === 'notes' && exam.pausedAt === null) {
+      if (now >= exam.deadline) { submitExam(true); return; }
+      exam.pausedAt = now;
+    } else if (next !== 'notes' && exam.pausedAt !== null) {
+      exam.deadline += now - exam.pausedAt;
+      exam.pausedAt = null;
+    }
+  }
+  view = next;
+  const copy = {
+    notes:['Your syntax bookshelf.','Read the patterns, learn the punctuation, then write them from memory.'],
+    practice:['Write it. Know it.','One prompt. One line of code. Build confidence with syntax from your slides.'],
+    identification:['Name the concept.','Short answers for the ideas behind the syntax. These answers ignore capitalization.'],
+    exam:['Your 50-item rehearsal.','17 JavaScript · 17 CSS · 16 ReactJS. All 10 official questions, every time.'],
+    results:['See what needs work.','Your attempts, patterns, and next topics to review. Everything stays in this session.']
+  }[view];
+  $('#page-title').textContent=copy[0]; $('#page-intro').textContent=copy[1];
+  document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-current',b.dataset.view===view?'page':'false'));
+  $('#filters').hidden = view==='exam' || view==='results';
+  $('#shuffle-label').hidden = view==='notes';
+  render(); if (focus) $('#main').focus({preventScroll:true});
+}
+function render() {
+  if(view==='notes') renderNotes();
+  else if(view==='practice') renderPractice();
+  else if(view==='identification') renderIdentification();
+  else if(view==='exam') renderExam();
+  else renderResults();
+}
+function renderNotes() {
+  const officialQuestions=filtered(CODE_QUESTIONS).filter(q=>q.examFlag).filter(q=>(q.prompt+' '+q.answer).toLowerCase().includes(search.toLowerCase()));
+  const officialTopics=new Set(CODE_QUESTIONS.filter(q=>q.examFlag).map(q=>q.language+q.topic));
+  const topics=STUDY_NOTES.filter(n=>(language==='All'||n.language===language)&&(!officialOnly||officialTopics.has(n.language+n.topic))&&(n.topic+' '+n.explanation+' '+n.example).toLowerCase().includes(search.toLowerCase()));
+  $('#content').innerHTML=`${exam?.deadline && exam.pausedAt !== null ? '<p class="notice">Your mock exam timer is paused while you read Study Notes. It resumes when you leave.</p>' : ''}<div class="notes-head"><label for="note-search" class="small">Find a topic</label><input id="note-search" class="search" type="search" placeholder="Search topics, keywords, or syntax…" value="${escapeHTML(search)}"><span class="small">${topics.length} topics</span></div>
+  <div class="card"><div class="tag-row"><span class="pill official">MUST KNOW</span><span class="small">10 official practice questions · ${officialQuestions.length} shown</span></div><p class="small">Exact prompts and answers supplied for your exam. Select a prompt to reveal its answer.</p><div class="official-list">${officialQuestions.map(q=>`<details><summary>${q.id}. ${escapeHTML(q.prompt)}</summary><pre>${escapeHTML(q.answer)}</pre><p class="small">${escapeHTML(q.explanation)}</p>${source(q)}</details>`).join('')||'<p>No official questions match this search.</p>'}</div></div>
+  ${['JavaScript','CSS','React'].map(lang=>{const items=topics.filter(n=>n.language===lang);return items.length?`<h2 class="section-heading">${languageName(lang)}</h2><div class="note-grid">${items.map(n=>`<article class="card" id="${n.id}"><div class="tag-row">${badge(n)}</div><h3>${escapeHTML(n.topic)}</h3><p class="small">${escapeHTML(n.explanation)}</p><pre>${escapeHTML(n.example)}</pre>${source(n)}</article>`).join('')}</div>`:'';}).join('')}
+  ${!topics.length?'<div class="empty">No topics match. Try a shorter search or another language.</div>':''}
+`;
+  $('#note-search').addEventListener('input',event=>{const pos=event.target.selectionStart;search=event.target.value;renderNotes();$('#note-search').focus();$('#note-search').setSelectionRange(pos,pos);});
+}
+function progressMarkup(items,grades,index) {
+  const count=items.filter(q=>grades[q.id]).length;
+  return `<div class="progress-line"><span>${count} / ${items.length} graded</span><span>Item ${items.length ? index+1 : 0} of ${items.length}</span></div><progress aria-label="Graded questions" max="${items.length||1}" value="${count}"></progress>`;
+}
+function compareMarkup(value,answer,language) {
+  const diff=analyzeMistake(value,answer,language);
+  function highlight(text) { const i=diff.index; return escapeHTML(text.slice(0,i))+`<mark class="diff" aria-label="First differing character">${i<text.length?(text[i]===' '?'␠':escapeHTML(text[i])):'∅'}</mark>`+escapeHTML(text.slice(i+1)); }
+  return `<p><strong>Likely error: ${escapeHTML(diff.type)}</strong></p><div class="compare"><div><label>Your answer</label><pre>${highlight(diff.actual)}</pre></div><div><label>Expected answer</label><pre>${highlight(diff.expected)}</pre></div></div><p class="small">Highlight = first substantive difference after allowed formatting. ␠ = space; ∅ = missing character. Error labels are suggestions.</p>`;
+}
+function feedbackMarkup(q,grade) {
+  if(!grade)return '';
+  return `<div class="feedback ${grade.correct?'':'wrong'}" role="status"><h3>${grade.manual?(grade.correct?'Marked right by you':'Marked missed by you'):(grade.correct?'Correct. Nicely written.':'Not quite. Check the syntax.')}</h3>${!grade.correct&&!grade.manual?compareMarkup(grade.value,q.answer,q.language):''}<label class="small">Correct answer</label><pre>${escapeHTML(q.answer)}</pre><p>${escapeHTML(q.explanation)}</p>${source(q)}<a class="small" href="#${noteFor(q).id}" data-note="${noteFor(q).id}">Review ${escapeHTML(q.topic)}</a></div>`;
+}
+function renderPractice() {
+  const q=practice.items[practice.index];
+  $('#content').innerHTML=`<div class="practice-layout"><div><div class="toolbar"><label><input id="handwriting" type="checkbox" ${handwriting?'checked':''}> Hand-writing mode</label><span class="small">${handwriting?'Paper first. Reveal, then self-grade.':'Type the exact syntax.'}</span></div>
+  ${retryItems?`<div class="notice">Retrying ${practice.items.length} latest missed code questions. <button id="exit-retry">Back to all questions</button></div>`:''}
+  ${progressMarkup(practice.items,practice.grades,practice.index)}
+  ${q?`<article class="card"><div class="card-top"><div class="tag-row">${badge(q)}</div><span class="number">#${String(q.id).padStart(3,'0')}</span></div><p class="small">${escapeHTML(q.topic)}</p><h2>${escapeHTML(q.prompt)}</h2>
+  ${handwriting?`<p class="small">Write one complete line on paper, including punctuation. Reveal only when you’re ready.</p><div class="actions"><button id="reveal-answer" class="primary" ${practice.revealed[q.id]?'disabled':''}>Reveal answer</button><button id="hint-button">Show hint</button></div>${practice.revealed[q.id]?`<pre>${escapeHTML(q.answer)}</pre><p class="small">${escapeHTML(q.explanation)}</p>${source(q)}${!practice.grades[q.id]?'<div class="actions"><button id="self-right" class="primary">I got it right</button><button id="self-wrong">I missed it</button></div>':''}`:''}`:
+  `<form id="code-form"><label class="answer-label" for="code-answer">Your single line of code</label><input id="code-answer" class="code-input" type="text" spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off" aria-describedby="code-rules" placeholder="Write your answer here…" value="${escapeHTML(practice.drafts[q.id]||'')}" ${practice.grades[q.id]?'disabled':''}><div class="actions"><button class="primary" type="submit" ${practice.grades[q.id]?'disabled':''}>Check answer <span aria-hidden="true">↵</span></button><button id="hint-button" type="button">Show hint</button></div></form>`}
+  ${practice.hints[q.id]?`<div class="hint">Starts with <code>${escapeHTML(q.answer.slice(0,Math.min(9,q.answer.length)))}</code>…</div>`:''}
+  ${feedbackMarkup(q,practice.grades[q.id])}<div class="divider"></div><div class="actions"><button id="practice-prev" ${practice.index===0?'disabled':''}>← Previous</button><span class="small">${practice.index+1} / ${practice.items.length}</span><button id="practice-next" class="push" ${practice.index===practice.items.length-1?'disabled':''}>Next question →</button></div>${practice.items.every(item=>practice.grades[item.id])?'<p class="notice">Drill complete. Open Results to review your attempts or retry missed questions.</p>':''}</article>`:
+  '<div class="card empty">No questions match these filters. Choose another language or turn off Official practice only.</div>'}</div>
+  <aside class="aside"><div class="card"><div class="eyebrow">The exam habit</div><h3>Slow down at the symbols.</h3><ul id="code-rules"><li>Case and quote style must match.</li><li>Harmless code formatting is accepted.</li><li>Ending statement/declaration semicolons are optional; required punctuation stays significant.</li><li>Literal, template and JSX text, and meaningful CSS spaces must match.</li><li>Curly quotes become straight quotes.</li></ul><p>Each card counts once. Change filters to begin a fresh drill.</p></div><div class="card"><div class="eyebrow">From your slides</div><h3>${CODE_QUESTIONS.length} code questions</h3><p>JavaScript, CSS and ReactJS. The 10 official prompts carry a gold badge.</p><button data-go="notes">Open study notes</button></div></aside></div>`;
+  $('#handwriting').onchange=e=>{handwriting=e.target.checked;renderPractice();};
+  if(retryItems)$('#exit-retry').onclick=()=>{retryItems=null;rebuildPractice();renderPractice();};
+  if(!q)return;
+  const grade=(correct,manual=false)=>{if(practice.grades[q.id])return;practice.grades[q.id]=addAttempt(q,practice.drafts[q.id]||'',correct,manual?'handwriting':'practice',manual);renderPractice();};
+  if($('#code-answer')) { $('#code-answer').oninput=e=>{practice.drafts[q.id]=e.target.value;}; $('#code-form').onsubmit=e=>{e.preventDefault();grade(checkCode(practice.drafts[q.id]||'',q));}; }
+  $('#hint-button').onclick=()=>{practice.hints[q.id]=true;renderPractice();};
+  if($('#reveal-answer'))$('#reveal-answer').onclick=()=>{practice.revealed[q.id]=true;renderPractice();};
+  if($('#self-right'))$('#self-right').onclick=()=>grade(true,true);
+  if($('#self-wrong'))$('#self-wrong').onclick=()=>grade(false,true);
+  $('#practice-prev').onclick=()=>movePractice(-1);$('#practice-next').onclick=()=>movePractice(1);
+}
+function movePractice(delta){practice.index+=delta;renderPractice();if($('#code-answer')&&!$('#code-answer').disabled)$('#code-answer').focus();else $('#content article h2')?.scrollIntoView({block:'nearest'});}
+function renderIdentification() {
+  const state=identification,q=state.items[state.index],grade=q&&state.grades[q.id];
+  $('#content').innerHTML=progressMarkup(state.items,state.grades,state.index)+(q?`<article class="card"><div class="card-top"><div class="tag-row">${badge(q)}</div><span class="number">${q.id}</span></div><p class="small">${escapeHTML(q.topic)}</p><h2>${escapeHTML(q.prompt)}</h2><form id="ident-form"><label for="ident-answer" class="answer-label">Your answer</label><input id="ident-answer" class="code-input" spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off" value="${escapeHTML(state.drafts[q.id]||'')}" ${grade?'disabled':''}><div class="actions"><button class="primary" ${grade?'disabled':''}>Check answer ↵</button></div></form>${grade?`<div class="feedback ${grade.correct?'':'wrong'}" role="status"><h3>${grade.correct?'Correct.':'Keep this one in mind.'}</h3><p>Answer: <strong>${escapeHTML(q.answer)}</strong></p><p>${escapeHTML(q.explanation)}</p>${source(q)}</div>`:''}<div class="divider"></div><div class="actions"><button id="ident-prev" ${state.index===0?'disabled':''}>← Previous</button><span class="small">${state.index+1} / ${state.items.length}</span><button id="ident-next" class="push" ${state.index===state.items.length-1?'disabled':''}>Next question →</button></div></article>`:'<div class="card empty">No identification questions match. Official practice questions belong to Write-the-Code; turn off that filter for identification.</div>');
+  if(!q)return;
+  $('#ident-answer').oninput=e=>state.drafts[q.id]=e.target.value;
+  $('#ident-form').onsubmit=e=>{e.preventDefault();if(state.grades[q.id])return;const value=state.drafts[q.id]||'';state.grades[q.id]=addAttempt(q,value,checkIdentification(value,q),'identification');renderIdentification();};
+  $('#ident-prev').onclick=()=>{state.index--;renderIdentification();$('#ident-answer').focus();};
+  $('#ident-next').onclick=()=>{state.index++;renderIdentification();$('#ident-answer').focus();};
+}
+
+// MOCK EXAM: independent from filters, no hints/answers before submission.
+function renderExam() {
+  if(!exam) {
+    $('#content').innerHTML=`<div class="practice-layout"><div class="card"><div class="tag-row"><span class="pill official">EXAM CONDITIONS</span><span class="small">50 unique questions</span></div><h2>One line at a time.</h2><p class="small">Your answers stay editable until submission. No hints or feedback during the exam. Navigation and answers stay available if you visit another section.</p><div class="divider"></div><form id="exam-start"><label><input type="checkbox" id="use-timer"> Use a timer</label><p><label for="exam-minutes" class="small">Time limit in minutes (1–180)</label><br><input id="exam-minutes" class="inline-number" type="number" min="1" max="180" step="1" value="60" required disabled></p><button class="primary">Start mock exam →</button></form></div><aside class="aside"><div class="card"><h3>Always included</h3><p>All 10 official questions.</p><p>17 JavaScript<br>17 CSS<br>16 ReactJS</p><p>Study filters do not affect the mock exam. Timer expiry submits automatically.</p></div></aside></div>${lastExam?`<div class="card"><h3>Last mock exam</h3><p>${lastExam.correct} / 50 correct (${Math.round(lastExam.correct/50*100)}%).</p><button data-go="results">View results</button></div>`:''}`;
+    $('#use-timer').onchange=e=>$('#exam-minutes').disabled=!e.target.checked;
+    $('#exam-start').onsubmit=e=>{e.preventDefault();const timed=$('#use-timer').checked;const minutes=Number($('#exam-minutes').value);if(timed&&(!Number.isInteger(minutes)||minutes<1||minutes>180))return;exam={items:selectExam(),index:0,answers:{},deadline:timed?Date.now()+minutes*60000:null,pausedAt:null,submitted:false};renderExam();$('#exam-answer').focus();if(timerHandle)clearInterval(timerHandle);timerHandle=setInterval(tickExam,500);};
+    return;
+  }
+  const q=exam.items[exam.index],answered=exam.items.filter(item=>(exam.answers[item.id]||'').trim()).length;
+  $('#content').innerHTML=`<div class="exam-status"><span class="pill">MOCK EXAM IN PROGRESS</span><span class="timer" id="exam-timer">${timeRemaining()}</span><span class="small" id="answered-count">${answered} / 50 answered</span></div><progress id="exam-progress" value="${answered}" max="50" aria-label="Answered exam items"></progress><article class="card"><div class="card-top"><div class="tag-row">${badge(q)}</div><span class="number">Item ${exam.index+1} / 50</span></div><h2>${escapeHTML(q.prompt)}</h2><label class="answer-label" for="exam-answer">Your single line of code</label><input id="exam-answer" class="code-input" type="text" spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off" value="${escapeHTML(exam.answers[q.id]||'')}"><p class="small">Answers are checked only after submission. Press Enter for the next item.</p><div class="actions"><button id="exam-prev" ${exam.index===0?'disabled':''}>← Previous</button><button id="exam-next" ${exam.index===49?'disabled':''}>Next →</button><button id="exam-submit" class="primary push">Submit exam</button></div></article><div class="card"><h3>Question navigator</h3><p class="small">Green = answered · outlined = current · white = unanswered. Select any item to jump.</p><div class="exam-nav" aria-label="Exam question navigator">${exam.items.map((item,i)=>`<button data-exam-index="${i}" class="${(exam.answers[item.id]||'').trim()?'answered ':''}${i===exam.index?'current':''}" aria-label="Question ${i+1}, ${(exam.answers[item.id]||'').trim()?'answered':'unanswered'}" ${i===exam.index?'aria-current="step"':''}>${i+1}</button>`).join('')}</div></div>`;
+  $('#exam-answer').oninput=e=>{
+    exam.answers[q.id]=e.target.value;
+    const count=exam.items.filter(item=>(exam.answers[item.id]||'').trim()).length;
+    $('#answered-count').textContent=`${count} / 50 answered`;$('#exam-progress').value=count;
+    const b=$(`[data-exam-index="${exam.index}"]`);b.classList.toggle('answered',!!e.target.value.trim());b.setAttribute('aria-label',`Question ${exam.index+1}, ${e.target.value.trim()?'answered':'unanswered'}`);
+  };
+  const move=delta=>{exam.index+=delta;renderExam();$('#exam-answer').focus();};
+  $('#exam-answer').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();if(exam.index<49)move(1);else $('#exam-submit').focus();}};
+  $('#exam-prev').onclick=()=>move(-1);$('#exam-next').onclick=()=>move(1);
+  $('#exam-submit').onclick=requestSubmit;
+  document.querySelectorAll('[data-exam-index]').forEach(b=>b.onclick=()=>{exam.index=Number(b.dataset.examIndex);renderExam();$('#exam-answer').focus();});
+}
+function timeRemaining(){if(!exam?.deadline)return 'Untimed';const seconds=Math.max(0,Math.ceil((exam.deadline-(exam.pausedAt ?? Date.now()))/1000));return `${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;}
+function tickExam(){if(!exam||exam.pausedAt!==null)return;if(exam.deadline&&Date.now()>=exam.deadline){submitExam(true);return;}if($('#exam-timer'))$('#exam-timer').textContent=timeRemaining();}
+function requestSubmit(){const unanswered=exam.items.filter(q=>!(exam.answers[q.id]||'').trim()).length;$('#confirm-text').textContent=`${unanswered} unanswered item${unanswered===1?'':'s'} will be marked wrong. Submit for scoring and full feedback?`;pendingSubmit=()=>submitExam(false);$('#confirm-dialog').showModal();$('#cancel-submit').focus();}
+function submitExam(expired=false) {
+  if(!exam||exam.submitted)return;
+  exam.submitted=true;clearInterval(timerHandle);timerHandle=null;
+  if($('#confirm-dialog').open)$('#confirm-dialog').close();pendingSubmit=null;
+  const rows=exam.items.map(q=>{const value=exam.answers[q.id]||'';return addAttempt(q,value,checkCode(value,q),'exam');});
+  lastExam={rows,correct:rows.filter(r=>r.correct).length,expired};exam=null;navigate('results');
+}
+function breakdownMarkup(rows,by){
+  const groups=new Map();for(const a of rows){const key=by==='language'?a.q.language:a.q.language+' / '+a.q.topic;const row=groups.get(key)||{total:0,correct:0};row.total++;row.correct+=a.correct?1:0;groups.set(key,row);}
+  return `<div class="table-scroll"><table><thead><tr><th>${by==='language'?'Language':'Topic'}</th><th>Correct</th><th>Accuracy</th></tr></thead><tbody>${[...groups].map(([name,row])=>`<tr><td>${escapeHTML(by==='language'?languageName(name):name.replace('React /','ReactJS /'))}</td><td>${row.correct} / ${row.total}</td><td>${Math.round(row.correct/row.total*100)}%</td></tr>`).join('')}</tbody></table></div>`;
+}
+function missedMarkup(a,index){const q=a.q;return `<details class="card"><summary>${index+1}. ${languageName(q.language)} · ${escapeHTML(q.topic)} — ${a.manual?'Self-reported miss':escapeHTML(a.type)}</summary><p>${escapeHTML(q.prompt)}</p>${a.manual?'<p class="small">Paper answer was self-graded; no typed answer was recorded.</p>':compareMarkup(a.value,q.answer,q.language)}<pre>${escapeHTML(q.answer)}</pre><p class="small">${escapeHTML(q.explanation)}</p>${source(q)}</details>`;}
+function renderResults(){
+  const codeRows=attempts.filter(a=>a.mode!=='identification'),identRows=attempts.filter(a=>a.mode==='identification');
+  const correct=codeRows.filter(a=>a.correct).length,misses=latestMisses();
+  const counts=new Map();for(const a of codeRows.filter(a=>!a.correct))counts.set(a.type,(counts.get(a.type)||0)+1);
+  const topics=[...new Map(misses.map(a=>[a.q.language+a.q.topic,noteFor(a.q)])).values()];
+  $('#content').innerHTML=`<div class="stats"><div class="stat"><b>${correct} / ${codeRows.length}</b><span>Correct code attempts</span></div><div class="stat"><b>${codeRows.length?Math.round(correct/codeRows.length*100):0}%</b><span>Code accuracy</span></div><div class="stat"><b>${misses.length}</b><span>Latest missed questions</span></div></div><p class="small">Includes practice, mock exams, and self-graded handwriting. Repeated completed attempts count separately; retry tracks your latest result per question.</p>
+  ${!attempts.length?'<div class="card empty"><h2>Your next attempt starts the story.</h2><p>Answer a practice item or take a mock exam to see your results.</p><button class="primary" data-go="practice">Start practicing</button></div>':''}
+  ${lastExam?`<section class="card"><div class="tag-row"><span class="pill official">LATEST MOCK EXAM</span><span class="small">${lastExam.expired?'Timer expired · automatically submitted':'Submitted'}</span></div><h2>${lastExam.correct} / 50 correct · ${Math.round(lastExam.correct/50*100)}%</h2><h3>By language</h3>${breakdownMarkup(lastExam.rows,'language')}<details><summary>Breakdown by topic</summary>${breakdownMarkup(lastExam.rows,'topic')}</details><div class="actions"><button data-go="exam">Take another mock exam</button></div><h3 style="margin-top:24px">${50-lastExam.correct} missed exam items</h3>${lastExam.rows.filter(a=>!a.correct).map(missedMarkup).join('')||'<p>Every answer was correct.</p>'}</section>`:''}
+  ${codeRows.length?`<div class="result-grid"><section class="card"><h3>Accuracy by language</h3>${breakdownMarkup(codeRows,'language')}<p class="small">Handwritten self-grades: ${codeRows.filter(a=>a.manual).length}.</p></section><section class="card"><h3>Most common mistakes</h3>${counts.size?`<ol class="count-list">${[...counts].sort((a,b)=>b[1]-a[1]).map(([name,count])=>`<li>${escapeHTML(name)} <strong>× ${count}</strong></li>`).join('')}</ol>`:'<p class="small">No mistakes recorded.</p>'}</section></div><section class="card"><h3>Accuracy by topic</h3>${breakdownMarkup(codeRows,'topic')}</section><section class="card"><h3>Topics to review</h3><div class="note-links">${topics.map(n=>`<a href="#${n.id}" data-note="${n.id}">${languageName(n.language)} · ${escapeHTML(n.topic)}</a>`).join('')||'<p class="small">No unresolved code mistakes.</p>'}</div><div class="actions"><button id="retry-missed" class="primary" ${!misses.length?'disabled':''}>Retry missed code questions (${misses.length})</button></div></section><h2 class="section-heading">Latest missed code questions</h2>${misses.map(missedMarkup).join('')}`:''}
+  ${identRows.length?`<section class="card"><h3>Identification results</h3><p>${identRows.filter(a=>a.correct).length} / ${identRows.length} correct · ${Math.round(identRows.filter(a=>a.correct).length/identRows.length*100)}% accuracy.</p><p class="small">Tracked separately from code-writing accuracy.</p>${breakdownMarkup(identRows,'language')}<div class="actions"><button id="retry-ident" ${!latestMisses('identification').length?'disabled':''}>Retry missed identification (${latestMisses('identification').length})</button></div></section>`:''}`;
+  if($('#retry-missed'))$('#retry-missed').onclick=()=>{clearFilters();retryItems=misses.map(a=>a.q);handwriting=false;rebuildPractice();navigate('practice');};
+  if($('#retry-ident'))$('#retry-ident').onclick=()=>{clearFilters();identification.items=latestMisses('identification').map(a=>a.q);identification.index=0;identification.drafts={};identification.grades={};navigate('identification');};
+}
+
+// Delegation keeps links functional after each screen render, safely escaping code.
+document.addEventListener('click',event=>{
+  if (!bankReady) return;
+  const note=event.target.closest('[data-note]');
+  if(note){event.preventDefault();const changed=language!=='All'||officialOnly;clearFilters();if(changed){retryItems=null;rebuildPractice();}navigate('notes');const target=document.getElementById(note.dataset.note);target.setAttribute('tabindex','-1');target.focus();target.scrollIntoView({block:'center'});return;}
+  const go=event.target.closest('[data-go]');if(go)navigate(go.dataset.go);
+});
+document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>navigate(b.dataset.view));
+$('#language-filter').onchange=e=>{language=e.target.value;retryItems=null;rebuildPractice();render();};
+$('#official-filter').onchange=e=>{officialOnly=e.target.checked;retryItems=null;rebuildPractice();render();};
+$('#shuffle').onchange=e=>{shuffle=e.target.checked;rebuildPractice();render();};
+$('#cancel-submit').onclick=()=>{$('#confirm-dialog').close();pendingSubmit=null;};
+$('#confirm-submit').onclick=()=>pendingSubmit?.();
+$('#confirm-dialog').addEventListener('cancel',()=>pendingSubmit=null);
+window.addEventListener('beforeunload',event=>{if(exam){event.preventDefault();event.returnValue='';}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)tickExam();});
+function setBankLoading(loading) {
+  bankLoading = loading;
+  $('#bank-file').disabled = loading;
+  $('#bank-retry').disabled = loading;
+}
+function reportBankError(error) {
+  const status = $('#bank-status');
+  status.dataset.error = 'true';
+  status.textContent = error instanceof SyntaxError ? 'This file is not valid JSON. Choose code-questions.json and try again.' : error.message;
+}
+function startQuestionBank(value) {
+  if (bankReady) return;
+  const questions = validateCodeQuestions(value);
+  CODE_QUESTIONS = questions;
+  bankReady = true;
+  document.querySelectorAll('[data-view], #filters input, #filters select').forEach(control => control.disabled = false);
+  rebuildPractice(); navigate('practice',false);
+}
+async function loadQuestionBank(file) {
+  if (bankReady || bankLoading) return;
+  setBankLoading(true);
+  $('#bank-status').dataset.error = 'false';
+  $('#bank-status').textContent = 'Loading code questions…';
+  try {
+    let value;
+    if (file) value = JSON.parse(await file.text());
+    else {
+      const response = await fetch('./code-questions.json');
+      if (!response.ok) throw new Error('Could not load code-questions.json. Keep it beside this page, retry, or choose the file below.');
+      value = await response.json();
+    }
+    startQuestionBank(value);
+  } catch (error) {
+    if (error instanceof TypeError) reportBankError(new Error('Could not read the question bank. Retry or choose code-questions.json below.'));
+    else reportBankError(error);
+  } finally {
+    if (!bankReady) { $('#bank-file').value = ''; setBankLoading(false); }
+  }
+}
+function showQuestionBankLoader() {
+  document.querySelectorAll('[data-view], #filters input, #filters select').forEach(control => control.disabled = true);
+  const served = location.protocol === 'http:' || location.protocol === 'https:';
+  $('#content').innerHTML = '<div class="card"><h2>Load your code questions</h2><p id="bank-status" role="status" aria-live="polite"></p><p><label for="bank-file">Choose code-questions.json</label><br><input id="bank-file" type="file" accept=".json,application/json"></p><button id="bank-retry" type="button">Retry loading</button></div>';
+  $('#bank-status').textContent = served ? 'Loading code questions…' : 'For offline study, choose code-questions.json from the same folder as this page.';
+  $('#bank-retry').hidden = !served;
+  $('#bank-retry').onclick = () => loadQuestionBank();
+  $('#bank-file').onchange = event => { const file = event.target.files[0]; if (file) loadQuestionBank(file); };
+  if (served) loadQuestionBank();
+}
+showQuestionBankLoader();
+</script>
+</body>
+</html>
